@@ -1,0 +1,45 @@
+Given a string A, compute the minimum number of characters you need to delete from A to make the remaining string a polindrome. 
+
+Answer:
+
+#include <limits.h>
+#include <iostream>
+using namespace std;
+ 
+/* find minimum of two numbers */
+int min(int a, int b)
+{  
+    return a < b ? a : b; 
+}
+ 
+/* Recursive function to find minimum number to delete to archieve polindrome */
+int MinDeletion(char str[], int last, int first)
+{
+    if (last > first) return INT_MAX;
+    if (last == first) return 0;
+    if (last == first - 1) return (str[last] == str[first])? 0 : 1;
+ 
+    /* Check if the first and last characters are same. */
+    return (str[last] == str[first])? MinDeletion(str, last + 1, first - 1): (min(MinDeletion(str, last, first - 1), MinDeletion(str, last + 1, first)) + 1);
+}
+ 
+int main()
+{
+    string name;
+    cout << "Please, enter your full name : ";
+    getline (cin,name);
+    
+    int charsize = 0;
+    int size = name.length();
+    char *str = new char[size];
+    while(charsize < size)
+    {
+        str[charsize]=name.at(charsize);
+        charsize++;
+    }
+
+    int x = 0;
+    x = MinDeletion(str, 0, charsize);
+    cout << x << endl;
+    return 0;
+}
